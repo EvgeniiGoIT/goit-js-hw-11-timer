@@ -8,19 +8,27 @@ class CountdownTimer {
       mins: this.selector.querySelector('[data-value="mins"]'),
       secs: this.selector.querySelector('[data-value="secs"]')
     };
+    this.start();
   }
 
   start() {
     let dateNow = Date.now();
+    if (this.checkDate(dateNow)) {
+      return;
+    }
     this.math(dateNow);
     this.timer = setInterval(() => {
-      if (this.targetDate === dateNow) {
+      dateNow = Date.now();
+      if (this.checkDate(dateNow)) {
         this.stop();
         return;
       }
-      dateNow = Date.now();
       this.math(dateNow);
     }, 1000);
+  }
+
+  checkDate(dateNow) {
+    return dateNow >= this.targetDate.getTime();
   }
 
   math(date) {
@@ -68,7 +76,5 @@ class CountdownTimer {
 
 const timer = new CountdownTimer({
   selector: "#timer-1",
-  targetDate: new Date("January 1, 2020")
+  targetDate: new Date("2019-07-06T00:47:50")
 });
-
-timer.start();
